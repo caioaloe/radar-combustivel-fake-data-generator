@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radar Combustível — Trabalho Final</title>
+<style>
+  :root {
+    --laranja: #e65c00;
+    --cinza-escuro: #1a1a2e;
+    --cinza-medio: #444;
+    --cinza-claro: #f5f5f5;
+    --borda: #ddd;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #222;
+    background: #fff;
+  }
+
+  /* ── CAPA ── */
+  .capa {
+    page-break-after: always;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    color: #fff;
+    text-align: center;
+    padding: 60px 40px;
+  }
+  .capa .icone { font-size: 72pt; margin-bottom: 20px; }
+  .capa h1 { font-size: 28pt; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+  .capa .subtitulo { font-size: 16pt; color: #ff9a3c; margin-bottom: 40px; }
+  .capa .disciplina { font-size: 11pt; color: #aaa; margin-bottom: 6px; }
+  .capa .data { font-size: 10pt; color: #888; }
+  .capa .divider {
+    width: 80px; height: 4px;
+    background: #e65c00;
+    border-radius: 2px;
+    margin: 30px auto;
+  }
+  .capa .integrantes {
+    margin-top: 40px;
+    padding: 24px 40px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+  }
+  .capa .integrantes h3 { color: #ff9a3c; font-size: 10pt; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+  .capa .integrantes p { color: #ccc; font-size: 11pt; margin-bottom: 5px; }
+
+  /* ── CONTEÚDO ── */
+  .conteudo { max-width: 820px; margin: 0 auto; padding: 40px 40px; }
+
+  h1 { font-size: 20pt; color: var(--cinza-escuro); margin: 40px 0 12px; border-bottom: 3px solid var(--laranja); padding-bottom: 8px; }
+  h2 { font-size: 15pt; color: var(--cinza-escuro); margin: 30px 0 10px; }
+  h3 { font-size: 12pt; color: var(--cinza-medio); margin: 20px 0 8px; }
+
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 10px 0 14px 22px; }
+  li { margin-bottom: 5px; }
+
+  /* ── TABELAS ── */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 20px; font-size: 10pt; }
+  th { background: var(--cinza-escuro); color: #fff; padding: 9px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--borda); }
+  tr:nth-child(even) td { background: var(--cinza-claro); }
+
+  /* ── CÓDIGO ── */
+  pre {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 9pt;
+    font-family: 'Consolas', 'Courier New', monospace;
+    overflow-x: auto;
+    margin: 12px 0 18px;
+    line-height: 1.5;
+    border-left: 4px solid var(--laranja);
+  }
+  code { font-family: 'Consolas', 'Courier New', monospace; font-size: 9.5pt; background: #f0f0f0; padding: 1px 5px; border-radius: 3px; }
+
+  /* ── DIAGRAMA ── */
+  .diagrama {
+    background: #0d1117;
+    color: #58a6ff;
+    padding: 20px 24px;
+    border-radius: 10px;
+    font-family: 'Consolas', monospace;
+    font-size: 9pt;
+    line-height: 1.6;
+    margin: 16px 0 20px;
+    border: 1px solid #30363d;
+  }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-block;
+    background: var(--laranja);
+    color: #fff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge.azul { background: #0f3460; }
+  .badge.verde { background: #2d6a4f; }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--cinza-claro);
+    border-left: 4px solid var(--laranja);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+  }
+  .card h4 { font-size: 11pt; color: var(--cinza-escuro); margin-bottom: 5px; }
+
+  /* ── DESTAQUE ── */
+  .destaque {
+    background: #fff8f0;
+    border: 1px solid #ffc080;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 10.5pt;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { font-size: 10pt; }
+    .capa { min-height: 100vh; }
+    h1, h2, h3 { page-break-after: avoid; }
+    pre, table { page-break-inside: avoid; }
+    .page-break { page-break-before: always; }
+  }
+
+  .section-number {
+    display: inline-block;
+    background: var(--laranja);
+    color: white;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+    font-size: 12pt;
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+
+  .screenshot-placeholder {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    color: #999;
+    font-size: 10pt;
+    background: #fafafa;
+    margin: 14px 0;
+  }
+
+  .log-output {
+    background: #0a0a0a;
+    color: #00ff88;
+    padding: 16px;
+    border-radius: 8px;
+    font-family: 'Consolas', monospace;
+    font-size: 9pt;
+    line-height: 1.7;
+    margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════ CAPA -->
+<div class="capa">
+  <div class="icone">⛽</div>
+  <h1>Radar Combustível</h1>
+  <div class="subtitulo">Pipeline MongoDB → Redis</div>
+  <div class="divider"></div>
+  <div class="disciplina">Trabalho Final — Bancos de Dados In-Memory</div>
+  <div class="disciplina">FIAP MBA em Tecnologia · 2026</div>
+  <div class="data">Prof. Daniel Lemeszenski</div>
+
+  <div class="integrantes">
+    <h3>Integrantes do Grupo</h3>
+    <p>● ___________________________________</p>
+    <p>● ___________________________________</p>
+    <p>● ___________________________________</p>
+    <p>● ___________________________________</p>
+    <p>● ___________________________________</p>
+    <p>● ___________________________________</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ CONTEÚDO -->
+<div class="conteudo">
+
+<!-- ── 1. DESCRIÇÃO DO PROBLEMA ── -->
+<h1><span class="section-number">1</span> Descrição do Problema</h1>
+
+<p>
+  A plataforma <strong>Radar Combustível</strong> monitora preços de combustíveis em postos de abastecimento
+  em todo o Brasil. Usuários consultam o aplicativo para encontrar o posto mais barato próximo à sua
+  localização, acompanhar variações de preço e registrar avaliações.
+</p>
+
+<p>O desafio técnico consiste em transformar dados transacionais armazenados no MongoDB em uma
+camada de consulta de baixíssima latência no Redis, capaz de responder em tempo real a perguntas como:</p>
+
+<ul>
+  <li>Quais postos estão com menor preço de <em>Gasolina Comum</em> em São Paulo?</li>
+  <li>Quais combustíveis tiveram maior variação de preço esta semana?</li>
+  <li>Quais cidades apresentam maior volume de buscas na plataforma?</li>
+  <li>Quais postos existem em um raio de 50 km da minha localização?</li>
+  <li>Como evoluiu o preço médio do Etanol em Minas Gerais nos últimos 90 dias?</li>
+</ul>
+
+<div class="destaque">
+  <strong>Decisão de recorte:</strong> o grupo focou nas consultas de maior valor analítico para o usuário
+  final — ranking de preços, busca geográfica e série temporal de preços — implementando tanto atualização
+  em lote (batch) quanto orientada a eventos (Change Stream), o que permite demonstrar os dois modelos
+  de pipeline na apresentação.
+</div>
+
+<!-- ── 2. ARQUITETURA ── -->
+<h1 class="page-break"><span class="section-number">2</span> Arquitetura da Solução</h1>
+
+<p>A solução é composta por quatro camadas executadas em contêineres Docker:</p>
+
+<div class="diagrama">
+┌──────────────────────────────────────────────────────────────────────┐
+│                          Docker Compose                              │
+│                                                                      │
+│  ┌──────────────────┐   ┌────────────────────────┐   ┌───────────┐  │
+│  │    MongoDB 7     │   │   pipeline_radar.py    │   │   Redis   │  │
+│  │   Replica Set    │──▶│                        │──▶│   Stack   │  │
+│  │      rs0         │   │  ① Fase Batch          │   │           │  │
+│  │                  │   │    Agrega MongoDB      │   │   HASH    │  │
+│  │  postos          │   │    Popula Redis        │   │   ZSET    │  │
+│  │  eventos_preco   │◀──│                        │   │   GEO     │  │
+│  │  buscas_usuarios │   │  ② Change Stream       │   │ TimeSeries│  │
+│  │  avaliacoes_     │   │    Eventos em real time│   │           │  │
+│  │  interacoes      │   └────────────────────────┘   └─────┬─────┘  │
+│  │  localizacoes_   │                                       │        │
+│  │  postos          │                              ┌────────▼──────┐ │
+│  └──────────────────┘                              │   Streamlit   │ │
+│                                                    │  Dashboard    │ │
+│  seed_radar_combustivel.py                         │   :8501       │ │
+│  (gerador de dados fake)                           └───────────────┘ │
+└──────────────────────────────────────────────────────────────────────┘
+</div>
+
+<h2>Fluxo de dados</h2>
+<ol>
+  <li><strong>Seed:</strong> o script <code>seed_radar_combustivel.py</code> gera 100.000 documentos em cada uma das 5 coleções do MongoDB usando a biblioteca Faker com locale pt_BR.</li>
+  <li><strong>Fase Batch:</strong> o pipeline lê agregações do MongoDB e popula todas as estruturas Redis de uma vez. Duração: ~40 segundos para 500K documentos.</li>
+  <li><strong>Fase Change Stream:</strong> após o batch, o pipeline abre um Change Stream na coleção <code>eventos_preco</code> e atualiza os rankings e a série temporal a cada novo evento inserido, sem reprocessar toda a base.</li>
+  <li><strong>Serving:</strong> o dashboard Streamlit consulta exclusivamente o Redis, garantindo respostas em poucos milissegundos.</li>
+</ol>
+
+<h2>Tecnologias utilizadas</h2>
+<table>
+  <tr><th>Componente</th><th>Tecnologia</th><th>Versão</th></tr>
+  <tr><td>Banco de dados documental</td><td>MongoDB</td><td>7.0 (replica set rs0)</td></tr>
+  <tr><td>Camada de serving</td><td>Redis Stack</td><td>latest (inclui TimeSeries e GEO)</td></tr>
+  <tr><td>Pipeline e dashboard</td><td>Python</td><td>3.11</td></tr>
+  <tr><td>Visualização</td><td>Streamlit + Plotly</td><td>latest</td></tr>
+  <tr><td>Orquestração</td><td>Docker Compose</td><td>v2</td></tr>
+</table>
+
+<!-- ── 3. PIPELINE ── -->
+<h1 class="page-break"><span class="section-number">3</span> Pipeline MongoDB → Redis</h1>
+
+<h2>Fase 1 — Batch</h2>
+<p>Ao iniciar, o pipeline executa as seguintes etapas em sequência:</p>
+
+<div class="card">
+  <h4>① batch_postos</h4>
+  <p>Percorre toda a coleção <code>postos</code> e para cada documento cria um <strong>HASH</strong> <code>posto:{id}</code>
+  com nome, bandeira, cidade e UF. Simultaneamente adiciona as coordenadas ao índice <strong>GEO</strong> <code>geo:postos</code>
+  em lotes de 500 para otimizar o throughput.</p>
+</div>
+
+<div class="card">
+  <h4>② batch_rankings_preco</h4>
+  <p>Agrega <code>eventos_preco</code> por <em>posto × combustível</em>, selecionando o preço mais recente de cada par.
+  Para cada resultado usa o HASH já carregado no Redis para descobrir a UF do posto (O(1), sem novo acesso ao MongoDB)
+  e executa <code>ZADD ranking:preco:{combustivel}:{uf} {preco} {posto_id}</code>. Score menor = posto mais barato.</p>
+</div>
+
+<div class="card">
+  <h4>③ batch_rankings_buscas</h4>
+  <p>Agrega <code>buscas_usuarios</code> por cidade/estado e popula o ZSET <code>ranking:buscas</code>
+  com <code>member="cidade|uf"</code> e <code>score=contagem</code>.</p>
+</div>
+
+<div class="card">
+  <h4>④ batch_rankings_variacao</h4>
+  <p>Agrega <code>eventos_preco</code> para obter a variação percentual mais recente de cada posto por combustível.
+  Popula <code>ranking:variacao:{combustivel}</code> com <code>score=|variacao_pct|</code>.</p>
+</div>
+
+<div class="card">
+  <h4>⑤ batch_stats_globais</h4>
+  <p>Calcula mín, médio e máx de preço por combustível em toda a base e armazena no HASH <code>stats:preco_medio</code>.</p>
+</div>
+
+<div class="card">
+  <h4>⑥ batch_timeseries</h4>
+  <p>Agrega <code>eventos_preco</code> por <em>dia × combustível × UF</em> com <code>$lookup</code> em postos
+  e grava a média diária nas chaves de TimeSeries <code>ts:preco_avg:{combustivel}:{uf}</code>.</p>
+</div>
+
+<h2>Saída do batch (produção)</h2>
+<div class="log-output">
+20:37:01 [INFO] BATCH INICIO — MongoDB → Redis
+20:37:10 [INFO] [batch_postos] 100000 postos → HASH posto:{id} + GEO geo:postos
+20:37:26 [INFO] [batch_rankings_preco] 92030 entradas → ZSET ranking:preco:*
+20:37:29 [INFO] [batch_rankings_buscas] 29346 cidades → ZSET ranking:buscas
+20:37:38 [INFO] [batch_rankings_variacao] 92030 entradas → ZSET ranking:variacao:*
+20:37:38 [INFO] [batch_stats_globais] stats:preco_medio atualizado (6 combustiveis)
+20:37:41 [INFO] [batch_timeseries] 5458 pontos → TS ts:preco_avg:*
+20:37:41 [INFO] BATCH CONCLUIDO em 40.2s
+20:37:41 [INFO] [STREAM] Aguardando eventos em eventos_preco (Change Stream)...
+</div>
+
+<h2>Fase 2 — Change Stream (tempo real)</h2>
+<p>
+  Após o batch, o pipeline abre um Change Stream na coleção <code>eventos_preco</code> filtrando
+  apenas operações de <code>insert</code>. Para cada novo evento:
+</p>
+<ol>
+  <li>Consulta a UF do posto via <code>HGET posto:{id} uf</code> (O(1) no Redis, sem acesso ao MongoDB).</li>
+  <li>Atualiza <code>ranking:preco:{comb}:{uf}</code> com o novo preço.</li>
+  <li>Atualiza <code>ranking:variacao:{comb}</code> com a variação absoluta.</li>
+  <li>Adiciona o ponto à série temporal <code>ts:preco_avg:{comb}:{uf}</code>.</li>
+</ol>
+
+<pre>
+# Trecho do pipeline — handle_novo_evento
+def handle_novo_evento(r: Redis, doc: dict) -> None:
+    pid   = str(doc.get("posto_id", ""))
+    comb  = doc.get("combustivel", "")
+    preco = float(doc.get("preco_novo", 0))
+    uf    = r.hget(f"posto:{pid}", "uf") or "XX"   # O(1)
+
+    r.zadd(f"ranking:preco:{comb}:{uf}", {pid: preco})
+    r.zadd(f"ranking:variacao:{comb}",   {pid: abs(doc["variacao_pct"])})
+
+    ts_ms = int(doc["ocorrido_em"].timestamp() * 1000)
+    ts_add(r, f"ts:preco_avg:{comb}:{uf}", ts_ms, preco, {...})
+</pre>
+
+<p>O Change Stream se reconecta automaticamente em caso de falha de rede, com backoff de 3 segundos.</p>
+
+<!-- ── 4. ESTRUTURAS REDIS ── -->
+<h1 class="page-break"><span class="section-number">4</span> Estruturas Redis Utilizadas</h1>
+
+<h2>HASH — <code>posto:{id}</code></h2>
+<p><strong>Justificativa:</strong> o HASH é a estrutura ideal para armazenar o cadastro resumido de cada posto.
+Permite leitura de campos individuais em O(1) sem deserializar o documento inteiro.
+O pipeline usa esse HASH como <em>lookup cache</em> para evitar joins desnecessários no MongoDB durante o Change Stream.</p>
+
+<table>
+  <tr><th>Campo</th><th>Conteúdo</th><th>Exemplo</th></tr>
+  <tr><td>nome</td><td>Nome fantasia do posto</td><td>Posto Oliveira &amp; Filhos</td></tr>
+  <tr><td>bandeira</td><td>Bandeira</td><td>Shell</td></tr>
+  <tr><td>cidade</td><td>Município</td><td>Campinas</td></tr>
+  <tr><td>uf</td><td>Estado</td><td>SP</td></tr>
+  <tr><td>ativo</td><td>Flag de status</td><td>1</td></tr>
+</table>
+
+<h2>GEO — <code>geo:postos</code></h2>
+<p><strong>Justificativa:</strong> o tipo GEO do Redis permite calcular distâncias e filtrar por raio geográfico
+em O(N+log M) usando um índice geoespacial interno (geohash). A alternativa seria carregar todas as coordenadas
+e calcular no Python, o que seria inviável para 100K postos.</p>
+
+<pre>
+# Busca postos em 50 km de São Paulo
+GEOSEARCH geo:postos FROMLONLAT -46.6333 -23.5505
+          BYRADIUS 50 km ASC COUNT 20 WITHCOORD WITHDIST
+</pre>
+
+<h2>ZSET — <code>ranking:preco:{combustivel}:{uf}</code></h2>
+<p><strong>Justificativa:</strong> o Sorted Set é a estrutura perfeita para rankings. O score armazena o preço
+atual do posto (menor = mais barato). <code>ZRANGE ... WITHSCORES</code> retorna os N postos mais baratos
+em O(log N + N), independente do tamanho total do ranking. A separação por combustível <em>e</em> UF
+permite consultas regionais sem filtros adicionais.</p>
+
+<h2>ZSET — <code>ranking:buscas</code></h2>
+<p><strong>Justificativa:</strong> a contagem de buscas por cidade é um caso de uso clássico de Sorted Set.
+Score = número de buscas. <code>ZREVRANGE ranking:buscas 0 9</code> entrega as 10 cidades com maior
+demanda em O(log N).</p>
+
+<h2>ZSET — <code>ranking:variacao:{combustivel}</code></h2>
+<p><strong>Justificativa:</strong> mede a volatilidade de preços por posto. Score = variação percentual absoluta.
+Postos com maior oscilação ficam no topo, útil para alertas e monitoramento de mercado.</p>
+
+<h2>HASH — <code>stats:preco_medio</code></h2>
+<p><strong>Justificativa:</strong> armazena estatísticas globais de preço (mín, médio, máx por combustível)
+calculadas via agregação MongoDB. Serve o painel de resumo do dashboard em uma única chamada <code>HGETALL</code>.</p>
+
+<h2>TimeSeries — <code>ts:preco_avg:{combustivel}:{uf}</code></h2>
+<p><strong>Justificativa:</strong> o módulo RedisTimeSeries (incluído no Redis Stack) armazena
+séries temporais com compressão nativa e suporte a agregação por janela de tempo sem varrer todos
+os pontos. Permite responder "qual foi o preço médio diário da Gasolina Comum em SP nos últimos 90 dias?"
+em uma única chamada <code>TS.RANGE</code>.</p>
+
+<pre>
+TS.RANGE ts:preco_avg:GASOLINA_COMUM:SP - +
+</pre>
+
+<p>Cada série temporal é criada com <code>DUPLICATE_POLICY LAST</code> para aceitar re-inserções idempotentes
+do batch, e com labels <code>combustivel</code> e <code>uf</code> para consultas multi-série com <code>TS.MRANGE</code>.</p>
+
+<!-- ── 5. VISUALIZAÇÕES ── -->
+<h1 class="page-break"><span class="section-number">5</span> Visualizações e Resultados</h1>
+
+<p>O dashboard foi implementado em <strong>Streamlit</strong> e acessa exclusivamente o Redis.
+É composto por 6 painéis, acessíveis pelo menu lateral:</p>
+
+<h2>Painel 1 — Resumo Global</h2>
+<p>Exibe métricas de preço (mín/médio/máx) para cada combustível lidas do HASH <code>stats:preco_medio</code>,
+com cards de destaque para Gasolina Comum, Etanol e Diesel S10, e gráfico de barras comparativo.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Resumo Global ]
+</div>
+
+<h2>Painel 2 — Rankings de Preço</h2>
+<p>Filtros de combustível e estado permitem consultar o ranking de menores preços lido do ZSET
+<code>ranking:preco:{comb}:{uf}</code>. O gráfico de barras horizontais exibe os postos ordenados
+do mais barato ao mais caro, com cores por bandeira.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Rankings de Preço ]
+</div>
+
+<h2>Painel 3 — Volume de Buscas</h2>
+<p>Lê o ZSET <code>ranking:buscas</code> e exibe as cidades com maior volume de buscas em gráfico
+de barras horizontais com cores por UF.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Volume de Buscas ]
+</div>
+
+<h2>Painel 4 — Variação de Preço</h2>
+<p>Lê o ZSET <code>ranking:variacao:{comb}</code> em ordem decrescente e exibe os postos com maior
+oscilação de preço — útil para detectar postos com comportamento de preço irregular.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Variação de Preço ]
+</div>
+
+<h2>Painel 5 — Série Temporal</h2>
+<p>Consulta a TimeSeries <code>ts:preco_avg:{comb}:{uf}</code> com <code>TS.RANGE - +</code>
+e plota a evolução do preço médio diário em gráfico de linha com marcadores.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Série Temporal ]
+</div>
+
+<h2>Painel 6 — Busca Geográfica</h2>
+<p>Usa <code>GEOSEARCH</code> no Redis para encontrar postos dentro de um raio configurável
+em torno de cidades de referência. Exibe os resultados em mapa nativo do Streamlit
+e tabela com distância em km.</p>
+
+<div class="screenshot-placeholder">
+  [ inserir print do painel Busca Geográfica ]
+</div>
+
+<!-- ── 6. DECISÕES TÉCNICAS ── -->
+<h1 class="page-break"><span class="section-number">6</span> Decisões Técnicas</h1>
+
+<table>
+  <tr><th>Decisão</th><th>Escolha</th><th>Justificativa</th></tr>
+  <tr>
+    <td>Lookup de UF no Change Stream</td>
+    <td>HGET Redis (O(1))</td>
+    <td>Evita um novo acesso ao MongoDB por evento, eliminando latência e carga desnecessária na fase stream.</td>
+  </tr>
+  <tr>
+    <td>Separação de rankings por UF</td>
+    <td>Chave composta <code>:comb:uf</code></td>
+    <td>Permite consultas regionais sem filtros pós-leitura; cada ZSET já está pré-filtrado por estado.</td>
+  </tr>
+  <tr>
+    <td>TimeSeries por dia</td>
+    <td>Agrega por <code>$dateToString</code> no MongoDB</td>
+    <td>90 dias × 6 combustíveis × 10 UFs = 5.400 pontos — volume gerenciável com granularidade suficiente para o negócio.</td>
+  </tr>
+  <tr>
+    <td>Batch antes do stream</td>
+    <td>Sempre roda batch ao iniciar</td>
+    <td>Garante que o Redis parte de um estado consistente mesmo após reinicializações, sem depender da história do oplog.</td>
+  </tr>
+  <tr>
+    <td>Reconexão automática</td>
+    <td>Try/except com sleep(3)</td>
+    <td>O Change Stream pode ser interrompido por failover do replica set; a reconexão automática garante continuidade do serviço.</td>
+  </tr>
+  <tr>
+    <td>DUPLICATE_POLICY LAST</td>
+    <td>TimeSeries</td>
+    <td>Permite que o batch seja re-executado de forma idempotente sem duplicar pontos na série temporal.</td>
+  </tr>
+</table>
+
+<!-- ── 7. CONCLUSÃO ── -->
+<h1 class="page-break"><span class="section-number">7</span> Conclusão</h1>
+
+<p>
+  O projeto demonstra um pipeline completo de dados que combina a flexibilidade do MongoDB para
+  armazenamento documental com a velocidade do Redis como camada de serving. A separação em duas
+  fases — batch e Change Stream — permite equilibrar consistência (o batch reprocessa toda a base
+  periodicamente) com latência (o stream atualiza rankings em tempo real a cada novo evento de preço).
+</p>
+
+<p>
+  As estruturas Redis foram escolhidas especificamente para cada padrão de consulta: ZSET para rankings
+  ordenados, GEO para buscas por proximidade, TimeSeries para evolução temporal e HASH como cache de
+  cadastro. Essa modelagem orientada a acesso é o que permite ao dashboard responder todas as perguntas
+  de negócio sem nenhuma consulta ao MongoDB em tempo de serving.
+</p>
+
+<p>
+  O resultado é uma plataforma capaz de servir consultas como "top 10 postos mais baratos de Gasolina
+  Comum em SP" ou "postos em 50 km de São Paulo" em poucos milissegundos, independente do volume de
+  dados armazenado no MongoDB.
+</p>
+
+<h2>Repositório</h2>
+<p>
+  <strong>GitHub:</strong> <code>_________________ [preencher link do repositório]</code>
+</p>
+
+</div><!-- /conteudo -->
+</body>
+</html>
